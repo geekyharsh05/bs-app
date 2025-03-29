@@ -1,0 +1,1 @@
+export const BASE_API_URL = "https://bs-backend-jnqb.onrender.com/api/v1"
