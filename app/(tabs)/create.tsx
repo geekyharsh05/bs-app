@@ -9,30 +9,32 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
-import { useRouter } from "expo-router";
+import React from "react";
 import styles from "@/assets/styles/create.styles";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/colors";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { useAuthStore } from "@/store/auth-store";
-import axios from "axios";
-import { BASE_API_URL } from "@/constants/config";
+import { useCreateBook } from "@/hooks/use-book";
+import { useBookStore } from "@/store/book-store";
 
 export default function Create() {
-  const [title, setTitle] = useState<string>("");
-  const [caption, setCaption] = useState<string>("");
-  const [rating, setRating] = useState<number>(3);
-  const [image, setImage] = useState<string | null>(null);
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const {
+    title,
+    caption,
+    rating,
+    image,
+    imageBase64,
+    setTitle,
+    setCaption,
+    setRating,
+    setImage,
+    setImageBase64,
+    resetFields,
+  } = useBookStore();
 
-  const { token } = useAuthStore();
-  console.log("Token", token);
-
-  const router = useRouter();
+  const { mutate: createBookMutation, isPending } = useCreateBook({ resetFields });
 
   async function pickImage() {
     try {
@@ -60,6 +62,14 @@ export default function Create() {
       if (!result.canceled) {
         setImage(result.assets[0].uri);
 
+        if (
+          result.assets[0].fileSize &&
+          result.assets[0].fileSize > 5 * 1024 * 1024
+        ) {
+          Alert.alert("Image too large", "Please select an image under 5MB.");
+          return;
+        }
+
         if (result.assets[0].base64) {
           setImageBase64(result.assets[0].base64);
         } else {
@@ -84,56 +94,20 @@ export default function Create() {
       return;
     }
 
-    try {
-      setLoading(true);
+    const uriParts = image!.split(".");
+    const fileType = uriParts[uriParts.length - 1];
+    const imageType = fileType
+      ? `image/${fileType.toLowerCase()}`
+      : "image/jpeg";
 
-      const uriParts = image!.split(".");
-      const fileType = uriParts[uriParts.length - 1];
-      const imageType = fileType
-        ? `image/${fileType.toLowerCase()}`
-        : "image/jpeg";
+    const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
 
-      const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
-
-      const response = await fetch(`${BASE_API_URL}/book/create-book`, {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-
-        body: JSON.stringify({
-          title,
-          caption,
-          rating: rating.toString(),
-          image: imageDataUrl,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create book");
-      }
-
-      Alert.alert("Success", "Book shared successfully!");
-      setTitle("");
-      setCaption("");
-      setImage(null);
-      setImageBase64(null);
-      setRating(3);
-      router.push("/");
-
-      const data = await response.json();
-      return data;
-    } catch (error: any) {
-      console.error("Submit error", error?.response || error);
-      const message =
-        error?.response?.data?.message || "Something went wrong on the server.";
-      Alert.alert("Error", message);
-    } finally {
-      setLoading(false);
-    }
+    createBookMutation({
+      title,
+      caption,
+      rating,
+      image: imageDataUrl,
+    });
   }
 
   function renderRatingPicker() {
@@ -241,9 +215,9 @@ export default function Create() {
             <TouchableOpacity
               style={styles.button}
               onPress={handleSubmit}
-              disabled={loading}
+              disabled={isPending}
             >
-              {loading ? (
+              {isPending ? (
                 <ActivityIndicator color={COLORS.white} />
               ) : (
                 <>
