@@ -15,30 +15,17 @@ import COLORS from "@/constants/colors";
 import { Link } from "expo-router";
 import { useAuthStore } from "@/store/auth-store";
 import Toast from "react-native-toast-message";
+import { useLogin } from "@/hooks/use-auth";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const { user, isLoading, login } = useAuthStore();
+  const { mutate: login, isPending: isLoading } = useLogin();
 
-  const handleLogin = async () => {
-    const result = await login(email, password)
-
-    if (!result.success) {
-      Toast.show({
-        type: "error",
-        text1: "Login Failed",
-        text2: result.error || "Something went wrong",
-      });
-    } else {
-      Toast.show({
-        type: "success",
-        text1: "Login Successful",
-        text2: "Welcome!",
-      });
-    }
+  const handleLogin = () => {
+    login({ email, password });
   };
 
   return (
