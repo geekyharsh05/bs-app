@@ -38,3 +38,5 @@ export const useCreateBook = ({ resetFields }: UseCreateBookProps) => {
     },
   });
 };
+
+export const useGetBook = () => {}
