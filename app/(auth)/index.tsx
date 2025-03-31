@@ -21,6 +21,7 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { isCheckingAuth } = useAuthStore();
 
   const { mutate: login, isPending: isLoading } = useLogin();
 
@@ -28,6 +29,8 @@ export default function Login() {
     login({ email, password });
   };
 
+  if (isCheckingAuth) return null;
+  
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
