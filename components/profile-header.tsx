@@ -3,7 +3,7 @@ import React from "react";
 import { useAuthStore } from "@/store/auth-store";
 import styles from "@/assets/styles/profile.styles";
 import { Image } from "expo-image";
-import { formatMemberSince } from "@/lib/utils";
+import { formatMemberSince } from "@/utils/utils";
 
 export default function ProfileHeader() {
   const { user } = useAuthStore();
