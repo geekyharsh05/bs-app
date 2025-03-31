@@ -14,7 +14,7 @@ import { BASE_API_URL } from "@/constants/config";
 import { User } from "@/types/auth-type";
 import COLORS from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { formatPublishDate } from "@/lib/utils";
+import { formatPublishDate } from "@/utils/utils";
 import Loader from "@/components/loader";
 
 export type BookType = {
@@ -166,7 +166,7 @@ export default function Home() {
             colors={[COLORS.primary]}
             tintColor={COLORS.primary}
           />
-        } 
+        }
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Bookly</Text>
