@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 23,
     fontFamily: "JetBrainsMono-Medium",
     letterSpacing: 0.5,
     color: COLORS.primary,
