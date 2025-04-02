@@ -12,7 +12,7 @@ import {
 import React from "react";
 import styles from "@/assets/styles/create.styles";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
@@ -34,7 +34,9 @@ export default function Create() {
     resetFields,
   } = useBookStore();
 
-  const { mutate: createBookMutation, isPending } = useCreateBook({ resetFields });
+  const { mutate: createBookMutation, isPending } = useCreateBook({
+    resetFields,
+  });
 
   async function pickImage() {
     try {

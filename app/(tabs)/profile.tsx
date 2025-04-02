@@ -15,7 +15,7 @@ import { useAuthStore } from "@/store/auth-store";
 import ProfileHeader from "@/components/profile-header";
 import LogoutButton from "@/components/logout-button";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 import { Image } from "expo-image";
 import Loader from "@/components/loader";
 
@@ -161,11 +161,11 @@ export default function Profile() {
 
   const handleRefresh = async () => {
     await fetchData();
-    setRefreshing(false)
-  }
+    setRefreshing(false);
+  };
 
   if (isloading && !refreshing) {
-    return <Loader size={"large"} />
+    return <Loader size={"large"} />;
   }
 
   return (

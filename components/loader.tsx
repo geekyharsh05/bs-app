@@ -1,6 +1,6 @@
 import { View, Text, ActivityIndicator } from "react-native";
 import React from "react";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 
 interface LoaderProps {
   size: number | "large" | "small" | undefined;

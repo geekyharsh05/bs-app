@@ -12,7 +12,7 @@ import styles from "@/assets/styles/home.styles";
 import { Image } from "expo-image";
 import { BASE_API_URL } from "@/constants/config";
 import { User } from "@/types/auth-type";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { formatPublishDate } from "@/utils/utils";
 import Loader from "@/components/loader";

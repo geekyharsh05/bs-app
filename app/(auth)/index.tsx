@@ -11,7 +11,7 @@ import styles from "../../assets/styles/login.styles";
 import React, { useState } from "react";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 import { Link } from "expo-router";
 import { useAuthStore } from "@/store/auth-store";
 import Toast from "react-native-toast-message";
@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   if (isCheckingAuth) return null;
-  
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}

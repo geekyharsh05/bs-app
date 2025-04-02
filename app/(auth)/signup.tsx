@@ -11,7 +11,7 @@ import {
 import styles from "../../assets/styles/signup.styles";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useAuthStore } from "@/store/auth-store";
