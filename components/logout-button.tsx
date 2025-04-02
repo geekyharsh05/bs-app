@@ -3,7 +3,7 @@ import React from "react";
 import { logout } from "@/utils/auth-helpers";
 import styles from "@/assets/styles/profile.styles";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "@/constants/colors";
+import COLORS from "@/constants/Colors";
 
 export default function LogoutButton() {
   const confirmLogout = () => {
